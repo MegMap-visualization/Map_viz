@@ -1,0 +1,62 @@
+name: galaxy-map-gateway                 # [required] 应用名称，全局唯一，不允许重名
+runtime: java                               # 运行时语言，可以不填
+
+atp:
+  - map-gateway/appci/atp-ci-jdk-11.yaml
+
+web:                                          # 类型为 web 的组件列表，作用是对外提供 HTTP 服务，内部域名为 ${appName}.mcd.megvii-inc.com
+  - name: main                                # [required] 名称，同一个 app 下的 web 不能重名
+    # image: xxx                                # 指定镜像名，推荐不填
+    nginx_snippet: |
+      more_set_headers "Access-Control-Allow-Origin: $http_origin";
+      more_set_headers 'Access-Control-Allow-Credentials: true';
+      more_set_headers 'Access-Control-Allow-Headers: DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,X-Tenant-Id';
+      more_set_headers 'Access-Control-Allow-Methods: GET, PUT, POST, DELETE, PATCH, OPTIONS';
+      if ($request_method = 'OPTIONS') {
+        more_set_headers 'Access-Control-Max-Age: 1728000';
+        more_set_headers 'Content-Type: text/plain charset=UTF-8';
+        more_set_headers 'Content-Length: 0';
+        return 204;
+      }
+      if ($request_method = 'POST') {
+        more_set_headers 'Access-Control-Expose-Headers' 'Content-Length,Content-Range';
+      }
+      if ($request_method = 'GET') {
+        more_set_headers 'Access-Control-Expose-Headers' 'Content-Length,Content-Range';
+      }
+
+    # external_domains:                         # 外部域名
+    #   - galaxy-com.megvii.datapp.galaxy.requirement.api.controller.api-test.megyueying.com
+    cmd: java -server -Xmx1024m -Xms1024m -Xmn512m -XX:MetaspaceSize=128m -Xss512k -XX:SurvivorRatio=2 -XX:+UseParallelGC -Dspring.profiles.active=prod -jar gateway.jar      # 运行命令，如果没有填写 backend 字段则此字段必须填写
+    # backend: megvii.com                       # rewrite 到的后端 url，如果没有填写 cmd 字段则此字段必须填写
+    port:                                     # [required] 端口列表，格式为 servicePort:processPort/protocol
+                                              # processPort 是指你的进程监听的端口，servicePort 可以随便填一个，protocol 选填，默认为 TCP
+                                              # 如果只写了一个端口，则代表 servicePort 和 processPort 相同
+                                              # 例子:
+                                              #     8080:7777 是指 servicePort = 8080, processPort = 7777, protocol = TCP
+                                              #     8080:7777/UDP 是指 servicePort = 8080, processPort = 7777, protocol = UDP
+                                              #     8080 是指 servicePort = 8080, processPort = 8080, protocol = TCP
+                                              #     8080/UDP 是指 servicePort = 8080, processPort = 8080, protocol = UDP
+      - 8081:8081
+
+    # external_port:                            # 外部端口列表。仅针对阿里云集群的外网访问设置，格式为 externalPort:processPort/protocol, processPort 必须与进程监听端口相同例如上面的 7777，externalPort 是指外网访问端口（不可重复，且大于等于 30000）
+    #                                           # 格式与上面的 port 格式相同，也可以指定 protocol，默认 protocol 为 TCP
+    #   - 33000:7777     
+    liveness_probe:
+      initial_delay_seconds: 30
+      period_seconds: 10
+      timeout_seconds: 5
+      http_get:
+        path: /health
+        port: 8081
+    readiness_probe:
+      initial_delay_seconds: 30
+      period_seconds: 10
+      timeout_seconds: 5
+      http_get:
+        path: /health
+        port: 8081
+
+
+switch:
+  web_ssl: off

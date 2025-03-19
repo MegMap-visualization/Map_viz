@@ -1,0 +1,13 @@
+name: _mcd_app_default_workflow_
+
+jobs:
+  mcd-docker-build:
+    timeout: 1h
+    retry: 3
+    steps:
+      - name: checkout
+        uses: atp.step/checkout@1.3
+      - name: build-push-image
+        uses: atp.step/dockerfile@1.3
+        with:
+          dockerfile: nacos/Dockerfile

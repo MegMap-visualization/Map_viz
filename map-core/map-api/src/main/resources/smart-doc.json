@@ -1,0 +1,21 @@
+{
+  "outPath": "src/main/resources/doc/",
+  "isStrict": false,
+  "allInOne": true,
+  "createDebugPage": false,
+  "packageFilters": "com.megvii.mapapi.controller.*",
+  "style": "xt256",
+  "projectName": "高精度地图可视化",
+  "inlineEnum": true,
+  "revisionLogs": [
+    {
+      "version": "1.0",
+      "revisionTime": "20221201",
+      "status": "创建",
+      "author": "LYF",
+      "remarks": "初始化接口文档"
+    }
+  ]
+}
+
+

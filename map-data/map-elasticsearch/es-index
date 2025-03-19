@@ -1,0 +1,45 @@
+PUT /obj_points
+{
+  "mappings": {
+      "properties": {
+        "objUid": {
+          "type": "keyword"
+        },
+        "points": {
+          "type": "keyword"
+        },
+        "type": {
+          "type": "keyword"
+        },
+        "xmlUid": {
+          "type": "keyword"
+        }
+      }
+    }
+}
+
+PUT /point
+{
+  "mappings": {
+      "properties": {
+        "geo": {
+          "type": "geo_point"
+        },
+        "index": {
+          "type": "integer"
+        },
+        "objUid": {
+          "type": "keyword"
+        },
+        "refLane": {
+          "type": "boolean"
+        },
+        "type": {
+          "type": "keyword"
+        },
+        "xmlUid": {
+          "type": "keyword"
+        }
+      }
+    }
+}

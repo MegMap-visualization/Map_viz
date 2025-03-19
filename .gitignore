@@ -1,0 +1,21 @@
+.idea
+/**/target/classes
+/**/target/generated-sources
+/**/target/maven-archiver
+/**/target/maven-status
+/**/target/map-api-1.0.jar.original
+map-visualization-cloud.iml
+/**/*.iml
+/**/__pycache__
+/**/**/resources/doc
+/**/**/src/test
+
+# cjj
+.vscode/
+.python-version
+jsconfig.json
+map-py-utils-client/tests/data/*
+map-py-utils-client/tests/data/*
+map-py-utils-client/tests/data/*
+map-py-utils-client/tests/data/*
+instance/

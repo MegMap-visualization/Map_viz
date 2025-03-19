@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.megvii.mapper.PointMapper">
+
+    <!-- 批量插入数据 查询主键ID注入到是实体中-->
+    <insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+<!--        <selectKey resultType="long" keyProperty="id" order="AFTER">-->
+<!--            SELECT-->
+<!--            LAST_INSERT_ID()-->
+<!--        </selectKey>-->
+        insert into
+        t_point ( id, lane_uid, p_index, geo, xml_uid, lon, lat)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+        (#{item.id},#{item.laneUid},#{item.pIndex},ST_GeomFromText(#{item.geo}),#{item.xmlUid},#{item.lon},#{item.lat})
+        </foreach>
+    </insert>
+
+    <!-- 批量插入数据 查询主键ID注入到是实体中-->
+    <insert id="insert" parameterType="com.megvii.entity.PointEntity" useGeneratedKeys="true">
+        <selectKey resultType="long" keyProperty="id" order="AFTER">
+            SELECT
+            LAST_INSERT_ID()
+        </selectKey>
+        insert into
+        t_point ( id, lane_uid, p_index, geo, xml_uid, lon, lat )
+        value
+        (#{id},#{laneUid},#{pIndex},ST_GeomFromText(#{geo}),#{xmlUid},#{item.lon},#{item.lat})
+    </insert>
+
+</mapper>

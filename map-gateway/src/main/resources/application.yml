@@ -1,0 +1,22 @@
+# Tomcat
+server:
+  port: 8081
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: map-api
+          uri: lb://map-api
+          predicates:
+            - Path=/map/api/**
+        - id: map-extract
+          uri: lb://map-extract
+          predicates:
+            - Path=/map/extract/**
+        - id: map-python-services
+          uri: lb://map-python-services
+          predicates:
+            - Path=/python/**
+          filters:
+            - RewritePath=/python/?(?<segment>.*),/$\{segment}

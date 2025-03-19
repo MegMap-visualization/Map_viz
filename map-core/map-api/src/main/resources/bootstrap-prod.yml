@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: map-api
+  cloud:
+    nacos:
+      config:
+        server-addr: mcd-map-nacos-web-nacos-web-d-r-p.mach-solar-test:8848
+        namespace: 7e9591bf-b301-4236-94b3-e84340d93287
+      discovery:
+        server-addr: mcd-map-nacos-web-nacos-web-d-r-p.mach-solar-test:8848
+        namespace: 7e9591bf-b301-4236-94b3-e84340d93287

@@ -1,0 +1,18 @@
+server:
+  port: 7000
+
+spring:
+  datasource:
+    url: jdbc:mysql://pxc-bjr75hj5p88da9.polarx.rds.aliyuncs.com:3306/galaxy_map_test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: galaxy_map_test
+    password: Kiufew8847rstw
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  redis:
+    host: r-2zelvgpc6la6v7xrrf.redis.rds.aliyuncs.com
+    port: 6379
+    password: LdZ4xu7mzmHYBnqd
+    database: 0
+
+app:
+  version: 1.0

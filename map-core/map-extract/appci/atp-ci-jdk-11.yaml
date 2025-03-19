@@ -1,0 +1,17 @@
+name: _mcd_app_default_workflow_
+
+jobs:
+  docker-build:
+    steps:
+      - name: checkout
+        uses: atp.step/checkout@latest   # 这个步骤使用专用打包的镜像
+      - name: build-jar
+        image: reg.megyueying.com/base/maven:3.6.3-11-dind
+        run: |
+          cd /atp-ci/job/code/;
+          mvn clean && mvn install && cd map-core/map-extract && mvn -X package spring-boot:repackage;
+      - name: build-image
+        uses: atp.step/dockerfile@latest
+        with:
+          prepare: echo "build image"
+#          dockerfile: map-core/map-extract/Dockerfile

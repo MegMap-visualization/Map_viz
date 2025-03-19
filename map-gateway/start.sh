@@ -1,0 +1,1 @@
+nohup java -jar map-gateway-1.0-SNAPSHOT.jar --spring.  >./log/map-api.log 2>&1 &

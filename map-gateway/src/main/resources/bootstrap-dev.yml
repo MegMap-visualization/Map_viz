@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: map-gateway
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+        namespace: 653a4b6b-b474-4497-8ec7-859f66a84d5d
+      discovery:
+        server-addr: localhost:8848
+        namespace: 653a4b6b-b474-4497-8ec7-859f66a84d5d
